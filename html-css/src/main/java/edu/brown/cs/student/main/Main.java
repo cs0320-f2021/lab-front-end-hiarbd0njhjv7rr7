@@ -119,6 +119,7 @@ public final class Main {
     Spark.exception(Exception.class, new ExceptionPrinter());
     FreeMarkerEngine freeMarker = createEngine();
     Spark.get("/autocorrect", new AutocorrectHandler(), freeMarker);
+    Spark.post("/results", new SubmitHandler(), freeMarker);
   }
 
   /**
@@ -151,7 +152,8 @@ public final class Main {
     public ModelAndView handle(Request request, Response response) throws Exception {
       Map<String, String> variables = ImmutableMap.of("title", "a title",
         "message", "a message",
-        "content", "some content");
+        "content", "some content",
+        "suggestions", "");
       return new ModelAndView(variables, "autocorrect.ftl");
     }
   }
@@ -162,5 +164,20 @@ public final class Main {
    *  @return ModelAndView to render.
    *  (autocorrect.ftl).
    */
+  private static class SubmitHandler implements TemplateViewRoute {
+
+    @Override
+    public ModelAndView handle(Request request, Response response) throws Exception {
+      QueryParamsMap qm = request.queryMap();
+      String textFromTextField = qm.value("text");
+      Set<String> stringSet = ac.suggest(textFromTextField);
+      String resultString = String.join(",", stringSet);
+      Map<String, String> variables = ImmutableMap.of("title", "a title",
+        "message", "a message",
+        "content", "some content",
+        "suggestions", resultString);
+      return new ModelAndView(variables, "autocorrect.ftl");
+    }
+  }
 
 }
