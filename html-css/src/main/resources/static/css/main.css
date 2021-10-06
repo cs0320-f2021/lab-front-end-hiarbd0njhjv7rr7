@@ -2,5 +2,8 @@ input[type="number"] {
   width: 3em;
 }
 body {
-    background-color: #E3A6EC;
+    background-color: #E3B6EC;
+}
+form, suggestions, h1, text {
+text-align:center;
 }

@@ -81,7 +81,7 @@ button,
 input,
 select,
 textarea {
-    font-family: sans-serif;
+    font-family: papyrus;
 }
 
 /**
@@ -124,8 +124,9 @@ a:hover {
  */
 
 h1 {
-    font-size: 2em;
+    font-size: 4em;
     margin: 0.67em 0;
+    text-align: center;
 }
 
 h2 {
